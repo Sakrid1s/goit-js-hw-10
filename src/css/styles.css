@@ -21,3 +21,36 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.timer {
+  display: flex;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.value {
+  font-size: 60px;
+}
+
+.label {
+  margin-top: 20px;
+}
+
+.form {
+  width: 300px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+fieldset {
+  display: flex;
+  justify-content: center;
+}

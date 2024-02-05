@@ -9,9 +9,8 @@ const startBtnEl = document.querySelector('[data-start]');
 startBtnEl.disabled = true;
 
 const inputEl = document.querySelector('#datetime-picker');
-const timerFieldEl = document.querySelector('.timer');
 const timerDays = document.querySelector('[data-days]');
-const timerHours = document.querySelector('[data-hourse]');
+const timerHours = document.querySelector('[data-hours]');
 const timerMinutes = document.querySelector('[data-minutes]');
 const timerSeconds = document.querySelector('[data-seconds]');
 
@@ -25,6 +24,7 @@ const options = {
       userSelectedDate = selectedDates[0];
       startBtnEl.disabled = false;
     } else {
+      startBtnEl.disabled = true;
       iziToast.error({
         message: 'Please choose a date in the future',
         position: 'topRight',
@@ -33,18 +33,32 @@ const options = {
   },
 };
 
+let diff;
+
 class Timer {
   constructor(tick) {
+    this.intervalId = null;
     this.tick = tick;
   }
   start() {
-    setInterval(() => {
-      const diff = userSelectedDate - Date.now();
+    this.intervalId = setInterval(() => {
+      diff = userSelectedDate - Date.now();
       const time = this.convertMs(diff);
       this.tick(time);
+      if (diff <= 0) {
+        this.stop();
+      }
     }, 1000);
     startBtnEl.disabled = true;
     inputEl.disabled = true;
+  }
+  stop() {
+    clearInterval(this.intervalId);
+    timerDays.textContent = '00';
+    timerHours.textContent = '00';
+    timerMinutes.textContent = '00';
+    timerSeconds.textContent = '00';
+    inputEl.disabled = false;
   }
   convertMs(ms) {
     // Number of milliseconds per unit of time
@@ -72,8 +86,15 @@ startBtnEl.addEventListener('click', () => {
   timer.start();
 });
 
-function onTimerTick(time) {
-  console.log(time);
+function onTimerTick({ days, hours, minutes, seconds }) {
+  timerDays.textContent = addLeadingZero(days);
+  timerHours.textContent = addLeadingZero(hours);
+  timerMinutes.textContent = addLeadingZero(minutes);
+  timerSeconds.textContent = addLeadingZero(seconds);
+}
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
 }
 
 flatpickr('#datetime-picker', options);

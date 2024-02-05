@@ -42,6 +42,10 @@
   margin-top: 20px;
 }
 
+#datetime-picker {
+  margin-top: 30px;
+}
+
 .form {
   width: 300px;
   margin-top: 20px;
@@ -53,4 +57,17 @@
 fieldset {
   display: flex;
   justify-content: center;
+}
+
+.nav-list {
+  padding: 30px;
+}
+
+.nav-item {
+  margin-bottom: 10px;
+}
+
+.nav-link {
+  color: #4e75ff;
+  font-size: 20px;
 }
